@@ -403,4 +403,8 @@
     <!-- QS Tiles haptic feedback -->
     <string name="qs_tiles_haptic_feedback_title">QuickSetting tile haptics</string>
 
+    <!-- Additional hotspot settings -->
+    <string name="wifi_hotspot_hidden_ssid_title">Hidden network</string>
+    <string name="wifi_hotspot_hidden_ssid_summary">Your mobile hotspot\'s name won\'t appear in the list of available WLAN networks.</string>
+
 </resources>
