@@ -91,6 +91,8 @@ android_library {
         "androidx.cardview_cardview",
         "androidx.compose.runtime_runtime-livedata",
         "androidx.activity_activity-ktx",
+        "androidx.fragment_fragment",
+        "androidx.fragment_fragment-ktx",
         "androidx.preference_preference",
         "androidx.recyclerview_recyclerview",
         "androidx.window_window",
@@ -126,6 +128,9 @@ android_library {
         "androidx.room_room-runtime",
         "SystemUIUnfoldLib",
         "co.aospa.framework",
+        "kotlin-stdlib",
+        "kotlinx_coroutines_android",
+        "kotlinx_coroutines",
     ],
 
     plugins: ["androidx.room_room-compiler-plugin"],
