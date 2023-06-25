@@ -415,4 +415,7 @@
     <string name="show_battery_percent_charging_title">Show percent when charging</string>
     <string name="show_battery_percent_charging_summary">Enforce showing the percent next to the icon when charging</string>
 
+    <!-- QS Brightness slider haptic feedback -->
+    <string name="qs_brightness_slider_haptic_feedback_title">Brightness slider haptics</string>
+
 </resources>

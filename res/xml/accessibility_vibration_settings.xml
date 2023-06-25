@@ -89,6 +89,13 @@
             app:keywords="@string/keywords_media_vibration"
             app:controller="com.android.settings.accessibility.MediaVibrationTogglePreferenceController" />
 
+        <!-- QS Bightness slider haptic feedback -->
+        <co.aospa.framework.preference.SystemSettingSwitchPreference
+            android:key="qs_brightness_slider_haptic_feedback"
+            android:title="@string/qs_brightness_slider_haptic_feedback_title"
+            android:defaultValue="false"
+            settings:controller="com.android.settings.sound.BrightnessSliderHapticPreferenceController" />
+
     </PreferenceCategory>
 
     <!-- Incall vibration options -->
