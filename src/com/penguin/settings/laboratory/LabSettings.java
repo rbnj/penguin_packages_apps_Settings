@@ -60,10 +60,12 @@ public class LabSettings extends SettingsPreferenceFragment implements
     // Battery options
     private static final String BATTERY_STYLE = "status_bar_battery_style";
     private static final String SHOW_BATTERY_PERCENT = "status_bar_show_battery_percent";
+    private static final String SHOW_BATTERY_PERCENT_CHARGING = "status_bar_show_battery_percent_charging";
     private static final String SHOW_BATTERY_PERCENT_INSIDE = "status_bar_show_battery_percent_inside";
 
     private SecureSettingListPreference mBatteryStyle;
     private SystemSettingSwitchPreference mBatteryPercent;
+    private SystemSettingSwitchPreference mBatteryPercentCharging;
     private SystemSettingSwitchPreference mBatteryPercentInside;
 
     @Override 
@@ -73,15 +75,20 @@ public class LabSettings extends SettingsPreferenceFragment implements
         PreferenceScreen prefSet = getPreferenceScreen();
         final ContentResolver resolver = getActivity().getContentResolver();
 
-        mBatteryPercentInside = (SystemSettingSwitchPreference)
-                findPreference(SHOW_BATTERY_PERCENT_INSIDE);
         mBatteryPercent = (SystemSettingSwitchPreference)
                 findPreference(SHOW_BATTERY_PERCENT);
-        boolean enabled = Settings.System.getIntForUser(resolver,
+        final boolean percentEnabled = Settings.System.getIntForUser(resolver,
                 SHOW_BATTERY_PERCENT, 0, UserHandle.USER_CURRENT) == 1;
-        mBatteryPercent.setChecked(enabled);
+        mBatteryPercent.setChecked(percentEnabled);
         mBatteryPercent.setOnPreferenceChangeListener(this);
-        mBatteryPercentInside.setEnabled(enabled);
+
+        mBatteryPercentInside = (SystemSettingSwitchPreference)
+                findPreference(SHOW_BATTERY_PERCENT_INSIDE);
+        mBatteryPercentInside.setEnabled(percentEnabled);
+        final boolean percentInside = Settings.System.getIntForUser(resolver,
+                SHOW_BATTERY_PERCENT_INSIDE, 0, UserHandle.USER_CURRENT) == 1;
+        mBatteryPercentInside.setChecked(percentInside);
+        mBatteryPercentInside.setOnPreferenceChangeListener(this);
 
         mBatteryStyle = (SecureSettingListPreference)
                 findPreference(BATTERY_STYLE);
@@ -91,6 +98,10 @@ public class LabSettings extends SettingsPreferenceFragment implements
         mBatteryStyle.setSummary(mBatteryStyle.getEntry());
         mBatteryStyle.setOnPreferenceChangeListener(this);
         updatePercentEnablement(value != 2);
+
+        mBatteryPercentCharging = (SystemSettingSwitchPreference)
+                findPreference(SHOW_BATTERY_PERCENT_CHARGING);
+        updatePercentChargingEnablement(value, percentEnabled, percentInside);
     }
 
     @Override 
@@ -103,12 +114,21 @@ public class LabSettings extends SettingsPreferenceFragment implements
             Settings.System.putIntForUser(resolver,
                     BATTERY_STYLE, value, UserHandle.USER_CURRENT);
             updatePercentEnablement(value != 2);
+            updatePercentChargingEnablement(value, null, null);
             return true;
         } else if (preference == mBatteryPercent) {
             boolean enabled = (boolean) objValue;
             Settings.System.putInt(resolver,
                     SHOW_BATTERY_PERCENT, enabled ? 1 : 0);
             mBatteryPercentInside.setEnabled(enabled);
+            updatePercentChargingEnablement(null, enabled, null);
+            return true;
+        } else if (preference == mBatteryPercentInside) {
+            boolean enabled = (boolean) objValue;
+            Settings.System.putInt(resolver,
+                    SHOW_BATTERY_PERCENT_INSIDE, enabled ? 1 : 0);
+            // we already know style isn't text and percent is enabled
+            mBatteryPercentCharging.setEnabled(enabled);
             return true;
         }
         return false;
@@ -117,6 +137,13 @@ public class LabSettings extends SettingsPreferenceFragment implements
     private void updatePercentEnablement(boolean enabled) {
         mBatteryPercent.setEnabled(enabled);
         mBatteryPercentInside.setEnabled(enabled && mBatteryPercent.isChecked());
+    }
+
+    private void updatePercentChargingEnablement(Integer style, Boolean percent, Boolean inside) {
+        if (style == null) style = Integer.valueOf(mBatteryStyle.getValue());
+        if (percent == null) percent = mBatteryPercent.isChecked();
+        if (inside == null) inside = mBatteryPercentInside.isChecked();
+        mBatteryPercentCharging.setEnabled(style != 2 && (!percent || inside));
     }
 
     @Override public void onResume() { super.onResume();
