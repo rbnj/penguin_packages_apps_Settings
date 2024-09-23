@@ -89,6 +89,12 @@
             app:keywords="@string/keywords_media_vibration"
             app:controller="com.android.settings.accessibility.MediaVibrationIntensityPreferenceController" />
 
+        <!-- QS Tiles haptic feedback -->
+        <co.aospa.framework.preference.SystemSettingSwitchPreference
+            android:key="qs_tiles_haptic_feedback"
+            android:title="@string/qs_tiles_haptic_feedback_title"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <!-- Incall vibration options -->

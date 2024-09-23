@@ -400,4 +400,7 @@
     <string name="lockscreen_battery_info_title">Lockscreen charging info</string>
     <string name="lockscreen_battery_info_summary">Display negotiated charger max current and voltage and battery temperature on lockscreen while charging</string>
 
+    <!-- QS Tiles haptic feedback -->
+    <string name="qs_tiles_haptic_feedback_title">QuickSetting tile haptics</string>
+
 </resources>
