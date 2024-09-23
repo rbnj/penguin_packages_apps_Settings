@@ -421,4 +421,7 @@
     <!-- Volume slider haptic feedback -->
     <string name="volume_slider_haptic_feedback_title">Volume slider haptics</string>
 
+    <!-- QS Tiles haptic feedback -->
+    <string name="qs_tiles_haptic_feedback_title">QuickSetting tile haptics</string>
+
 </resources>
